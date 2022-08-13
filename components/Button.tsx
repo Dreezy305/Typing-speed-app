@@ -3,12 +3,19 @@ import React from "react";
 type buttonProps = {
   label?: string;
   onClick?: () => void;
+  theme?: string;
 };
 
-function Button({ label, onClick }: buttonProps) {
+function Button({ label, onClick, theme }: buttonProps) {
   return (
     <button
-      className="font-medium font-sans py-3 w-4/5 border border-solid border-blue-300 rounded-md cursor-pointer bg-blue-300 text-white mt-10 mx-auto right-2 absolute bottom-0"
+      className={`font-medium font-sans py-3 w-4/5 border border-solid  rounded-md cursor-pointer  text-white mt-10 mx-auto ${
+        theme === "success"
+          ? "bg-lime-400 border-lime-400"
+          : theme === "error"
+          ? "bg-red-400 border-red-400"
+          : "bg-blue-300 border-blue-300"
+      }`}
       type={"button"}
       onClick={onClick}
     >
