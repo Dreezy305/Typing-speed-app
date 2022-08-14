@@ -4,8 +4,7 @@ import Button from "../../components/Button";
 import Stats from "../../components/Stats";
 import Timer from "../../components/Timer";
 import styles from "../../styles/Home.module.css";
-
-const NUM_OF_SECS = 60;
+import { NUM_OF_SECS, NUM_OF_WORDS } from "../../utils/constants";
 
 function Speed() {
   const [duration, setDuration] = useState<any>(0);
@@ -16,8 +15,10 @@ function Speed() {
   const [random, setRandom] = useState<any>([]);
   const [showRandom, setShowRandom] = useState<boolean>(true);
   const [stop, setStop] = useState<boolean>(false);
-
-  const NUM_OF_WORDS = 50;
+  const [currWordIndex, setCurrentWordIndex] = useState<any>(0);
+  const [count, setCount] = useState<any>(0);
+  const [incorrectWord, setIncorrectWord] = useState<any>(0);
+  const [correctWord, setCorrectWord] = useState<any>(0);
 
   const handleSelect = (e: any) => {
     const value = e.target.value;
@@ -67,6 +68,35 @@ function Speed() {
 
   const timerMins = duration < 10 ? `0${duration}` : duration;
   const timerSecs = seconds < 10 ? `0${seconds}` : seconds;
+
+  const handleKeyDown = (e: any) => {
+    const { keyCode } = e;
+    if (keyCode === 32) {
+      checkMatch();
+      setCurrentWordIndex(currWordIndex + 1);
+      setWord("");
+    }
+  };
+
+  const checkMatch = () => {
+    const wordToCheck = random[currWordIndex];
+    const doesItMatch = wordToCheck === word.trim();
+    // console.log(doesItMatch);
+    if (doesItMatch) {
+      setCount(count + 1);
+      setCorrectWord(correctWord + 1);
+    } else {
+      setCount((prev: any) => {
+        if (prev > 0) {
+          return prev - 1;
+        }
+      });
+      setIncorrectWord(incorrectWord + 1);
+    }
+  };
+
+  const acc = (correctWord / (correctWord + incorrectWord)) * 100;
+  console.log(acc.toFixed(2));
 
   return (
     <div className="container mx-auto flex flex-col space-y-4">
@@ -122,17 +152,21 @@ function Speed() {
             value={word}
             className="px-2 py-3 font-mono border-solid rounded-sm border border-sky-500 bg-white outline-none shadow-none text-black w-full"
             onChange={(e) => setWord(e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e)}
           />
         </div>
         {showRandom ? (
           <div className="w-full border border-solid border-3 text-left px-3 py-3 rounded-md shadow">
             {random?.map((i: any, index: any) => (
-              <>
+              <span key={index}>
                 <span key={index} className="text-left">
-                  {i}
+                  {i.split("").map((char: any, idx: any) => (
+                    <span key={idx}>{char}</span>
+                  ))}
                 </span>
                 <span> </span>
-              </>
+                &nbsp;
+              </span>
             ))}
           </div>
         ) : (
@@ -166,7 +200,11 @@ function Speed() {
       </div>
 
       {/* STATS */}
-      <Stats />
+      <Stats
+        totalScore={count}
+        wordsLength={random?.length}
+        accuracy={acc.toFixed(2)}
+      />
     </div>
   );
 }
