@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
   return (
     <main>
-      <section className="pt-7 mt-7">
+      <section className="pt-7 mt-7 overflow-hidden">
         <Speed />
       </section>
     </main>

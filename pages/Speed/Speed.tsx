@@ -2,31 +2,71 @@ import randomWords from "random-words";
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Stats from "../../components/Stats";
+import Timer from "../../components/Timer";
 import styles from "../../styles/Home.module.css";
 
+const NUM_OF_SECS = 60;
+
 function Speed() {
-  const [duration, setDuration] = useState<any>();
+  const [duration, setDuration] = useState<any>(0);
   const [custom, setCustom] = useState<any>(0);
-  const [seconds, setSeconds] = useState<any>(0);
+  const [seconds, setSeconds] = useState<any>(NUM_OF_SECS);
   const [paragraph, setParagraph] = useState<string>("");
   const [word, setWord] = useState<string>("");
   const [random, setRandom] = useState<any>([]);
   const [showRandom, setShowRandom] = useState<boolean>(true);
+  const [stop, setStop] = useState<boolean>(false);
 
-  const NUM_OF_WORDS = 100;
+  const NUM_OF_WORDS = 50;
+
+  const handleSelect = (e: any) => {
+    const value = e.target.value;
+    if (value > 1) {
+      setSeconds(0);
+    }
+  };
 
   const generateWords = () => {
     const w = randomWords(NUM_OF_WORDS);
     return w;
   };
 
+  // generates random words on mount
   useEffect(() => {
     setRandom(generateWords());
   }, []);
-  // start timer
+
+  // countdown timer logic
+  useEffect(() => {}, [seconds]);
+
   const start = () => {
-    console.log("here");
+    let interval = setInterval(() => {
+      if (duration === 0 || duration === 1) {
+        setSeconds((prev: any) => {
+          if (prev === 0) {
+            clearInterval(interval);
+            setSeconds(0);
+          } else {
+            return prev - 1;
+          }
+        });
+      } else if (duration > 1) {
+        setSeconds((prev: any) => console.log(prev));
+        setDuration((prev: any) => {
+          if (prev == 0) {
+            clearInterval(interval);
+          } else {
+            return duration - 1;
+          }
+        });
+      }
+    }, 1000);
   };
+
+  // console.log(seconds, "km");
+
+  const timerMins = duration < 10 ? `0${duration}` : duration;
+  const timerSecs = seconds < 10 ? `0${seconds}` : seconds;
 
   return (
     <div className="container mx-auto flex flex-col space-y-4">
@@ -36,11 +76,12 @@ function Speed() {
           <select
             className="font-serif font-normal text-base px-3 py-2 rounded-sm border border-sky-500 outline-none shadow-none"
             value={duration}
-            onChange={(e) => setDuration(e.target.value)}
+            onChange={(e) => {
+              setDuration(e.target.value);
+              handleSelect(e);
+            }}
           >
-            <option value={""} selected disabled hidden>
-              Select...
-            </option>
+            <option value={""}>Select...</option>
             <option value={1}>1 min</option>
             <option value={2}>2 mins</option>
             <option value={3}>3 mins</option>
@@ -61,28 +102,14 @@ function Speed() {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-3 justify-center relative w-4/5">
-          <p className="text-center text-5xl text-blue-300 mt-9">
-            {duration ? duration : 0}:{seconds}
-          </p>
-
-          <div className="flex flex-row items-center justify-center w-4/5 space-x-3 mx-auto">
-            <Button
-              label="start"
-              onClick={() => start()}
-              theme={"success"}
-              marginTop="mt-10"
-              width="w-4/5"
-            />
-            <Button
-              label="stop"
-              onClick={() => start()}
-              theme={"error"}
-              marginTop="mt-10"
-              width="w-4/5"
-            />
-          </div>
-        </div>
+        <Timer
+          minutes={timerMins}
+          seconds={timerSecs}
+          onStart={() => start()}
+          onStop={() => {
+            console.log("stop");
+          }}
+        />
       </div>
 
       {/* random paragraph */}
@@ -98,17 +125,20 @@ function Speed() {
           />
         </div>
         {showRandom ? (
-          <div className="w-4/5">
+          <div className="w-full border border-solid border-3 text-left px-3 py-3 rounded-md shadow">
             {random?.map((i: any, index: any) => (
-              <span key={index} className="text-left">
-                {i}
-              </span>
+              <>
+                <span key={index} className="text-left">
+                  {i}
+                </span>
+                <span> </span>
+              </>
             ))}
           </div>
         ) : (
           <>
             <label className="font-serif font-medium text-base pb-2">
-              Paste your texts
+              Paste your words (max 50 words)
             </label>
             <textarea
               className="bg-amber-200 border border-solid border-amber-200 rounded-lg px-4 py-4 h-auto w-full outline-none shadow-none text-sm"
@@ -116,7 +146,7 @@ function Speed() {
               id="paragraph"
               name="paragraph"
               onChange={(e) => setParagraph(e.target.value)}
-              maxLength={100}
+              maxLength={50}
             />
           </>
         )}
@@ -130,6 +160,7 @@ function Speed() {
             marginTop="mt-3"
             onClick={() => setShowRandom(!showRandom)}
             width="auto"
+            className="px-4"
           />
         </div>
       </div>
