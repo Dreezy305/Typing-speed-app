@@ -22,6 +22,8 @@ function Speed() {
   const [count, setCount] = useState<any>(0);
   const [incorrectWord, setIncorrectWord] = useState<any>(0);
   const [correctWord, setCorrectWord] = useState<any>(0);
+  const [currentChar, setCurrentChar] = useState<any>("");
+  const [currentCharIndex, setCurrentCharIndex] = useState<any>(-1);
 
   const handleSelect = (e: any) => {
     const value = e.target.value;
@@ -67,17 +69,19 @@ function Speed() {
     }, 1000);
   };
 
-  // console.log(seconds, "km");
-
   const timerMins = duration < 10 ? `0${duration}` : duration;
   const timerSecs = seconds < 10 ? `0${seconds}` : seconds;
 
   const handleKeyDown = (e: any) => {
-    const { keyCode } = e;
+    const { keyCode, key } = e;
     if (keyCode === 32) {
       checkMatch();
       setCurrentWordIndex(currWordIndex + 1);
       setWord("");
+      setCurrentCharIndex(-1);
+    } else {
+      setCurrentCharIndex(currentCharIndex + 1);
+      setCurrentChar(key);
     }
   };
 
