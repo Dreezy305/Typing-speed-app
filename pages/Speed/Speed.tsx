@@ -97,7 +97,8 @@ function Speed() {
 
   const handleTextArea = (e: any) => {
     const value = e.target.value;
-    const x = value.replace(/[ ,]+/g, ",");
+    const y = value.trim();
+    const x = y.replace(/[ ,]+/g, ",");
     const words = x.split(",");
     setRandom(words);
   };
@@ -178,7 +179,7 @@ function Speed() {
         ) : (
           <>
             <label className="font-serif font-medium text-base pb-2">
-              Paste your words (max 50 words)
+              Paste your words
             </label>
             <textarea
               className="bg-amber-200 border border-solid border-amber-200 rounded-lg px-4 py-4 h-auto w-full outline-none shadow-none text-sm"
