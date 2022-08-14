@@ -95,8 +95,14 @@ function Speed() {
     }
   };
 
+  const handleTextArea = (e: any) => {
+    const value = e.target.value;
+    const x = value.replace(/[ ,]+/g, ",");
+    const words = x.split(",");
+    setRandom(words);
+  };
+
   const acc = (correctWord / (correctWord + incorrectWord)) * 100;
-  console.log(acc.toFixed(2));
 
   return (
     <div className="container mx-auto flex flex-col space-y-4">
@@ -179,8 +185,11 @@ function Speed() {
               value={paragraph}
               id="paragraph"
               name="paragraph"
-              onChange={(e) => setParagraph(e.target.value)}
-              maxLength={50}
+              onChange={(e) => {
+                setParagraph(e.target.value);
+                handleTextArea(e);
+              }}
+              maxLength={1000}
             />
           </>
         )}

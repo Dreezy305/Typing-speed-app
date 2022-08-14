@@ -7,7 +7,6 @@ type statProps = {
 };
 
 function Stats({ totalScore, wordsLength, accuracy }: statProps) {
-  console.log(accuracy, "lk");
   return (
     <div className="flex flex-row mt-2 items-baseline justify-between">
       <div className="flex flex-col space-y-2">
