@@ -4,18 +4,20 @@ type buttonProps = {
   label?: string;
   onClick?: () => void;
   theme?: string;
+  marginTop?: string;
+  width?: string;
 };
 
-function Button({ label, onClick, theme }: buttonProps) {
+function Button({ label, onClick, theme, marginTop, width }: buttonProps) {
   return (
     <button
-      className={`font-medium font-sans py-3 w-4/5 border border-solid  rounded-md cursor-pointer  text-white mt-10 mx-auto ${
+      className={`font-medium font-sans py-3 border border-solid  rounded-md cursor-pointer  text-white mx-auto ${
         theme === "success"
           ? "bg-lime-400 border-lime-400"
           : theme === "error"
           ? "bg-red-400 border-red-400"
           : "bg-blue-300 border-blue-300"
-      }`}
+      } ${marginTop} whitespace-nowrap ${width}`}
       type={"button"}
       onClick={onClick}
     >
