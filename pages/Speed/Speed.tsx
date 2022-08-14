@@ -1,5 +1,5 @@
 import randomWords from "random-words";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button";
 import Stats from "../../components/Stats";
 import Timer from "../../components/Timer";
@@ -7,6 +7,9 @@ import styles from "../../styles/Home.module.css";
 import { NUM_OF_SECS, NUM_OF_WORDS } from "../../utils/constants";
 
 function Speed() {
+  const inputRef: any = useRef();
+  const textAreaRef: any = useRef();
+
   const [duration, setDuration] = useState<any>(0);
   const [custom, setCustom] = useState<any>(0);
   const [seconds, setSeconds] = useState<any>(NUM_OF_SECS);
@@ -81,7 +84,7 @@ function Speed() {
   const checkMatch = () => {
     const wordToCheck = random[currWordIndex];
     const doesItMatch = wordToCheck === word.trim();
-    // console.log(doesItMatch);
+
     if (doesItMatch) {
       setCount(count + 1);
       setCorrectWord(correctWord + 1);
@@ -135,6 +138,7 @@ function Speed() {
               name="custom"
               value={custom}
               onChange={(e) => setCustom(e.target.value)}
+              ref={inputRef}
             />
           </div>
         </div>
@@ -191,6 +195,7 @@ function Speed() {
                 handleTextArea(e);
               }}
               maxLength={1000}
+              ref={textAreaRef}
             />
           </>
         )}
@@ -214,6 +219,7 @@ function Speed() {
         totalScore={count}
         wordsLength={random?.length}
         accuracy={acc.toFixed(2)}
+        wpm={correctWord}
       />
     </div>
   );
