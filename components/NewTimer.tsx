@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 
 function NewTimer(props: any) {
   const { initialMinute = 0, initialSeconds = 0 } = props;
-  console.log(initialMinute, "hn");
+
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
   const [start, setStart] = useState<string>("");
+
+  console.log(minutes, "hn");
 
   useEffect(() => {
     let myInterval = setInterval(() => {
@@ -16,7 +18,7 @@ function NewTimer(props: any) {
         if (minutes === 0) {
           clearInterval(myInterval);
           setStart("stop");
-        } else {
+        } else if (minutes !== 0) {
           setMinutes(minutes - 1);
           setSeconds(59);
           setStart("start");

@@ -86,7 +86,7 @@ function Speed() {
     const int = parseInt(custom);
 
     if (int < 10) {
-      console.log(typeof `0${int}`);
+      return int;
     }
   };
 
@@ -139,7 +139,7 @@ function Speed() {
 
           {custom !== 0 && (
             <NewTimer
-              initialMinute={custom !== 0 && parseInt(custom)}
+              initialMinute={custom !== "" && parseInt(custom)}
               initialSeconds={0}
             />
           )}
