@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function NewTimer(props: any) {
   const { initialMinute = 0, initialSeconds = 0 } = props;
-  //   console.log(initialMinute, "hn");
+  console.log(initialMinute, "hn");
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
   const [start, setStart] = useState<string>("");
@@ -26,7 +26,7 @@ function NewTimer(props: any) {
     return () => {
       clearInterval(myInterval);
     };
-  });
+  }, [seconds, minutes]);
 
   return (
     <div className="w-4/5 mx-auto text-center flex flex-col space-y-2">
@@ -43,7 +43,8 @@ function NewTimer(props: any) {
       )}
       {start === "stop" && (
         <p className="text-lg text-red-400">
-          Your time is up, check your score below
+          Your time is up, check your score below, kindly refresh the page if
+          you want to play another game
         </p>
       )}
     </div>
