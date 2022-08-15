@@ -114,7 +114,9 @@ function Speed() {
           </select>
 
           <div className="flex flex-col space-y-2">
-            <label className="font-sans">Enter a custom duration(mins)</label>
+            <label className="font-sans">
+              Enter a custom duration(e.g. 08)
+            </label>
             <input
               className="px-2 py-3 font-mono border-solid rounded-md border border-sky-500 bg-white outline-none shadow-none text-black"
               type={"number"}

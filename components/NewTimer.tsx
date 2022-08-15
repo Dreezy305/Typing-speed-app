@@ -39,7 +39,7 @@ function NewTimer(props: any) {
         </h1>
       )}
       {start == "start" && (
-        <p className="text-lg text-green-500">Your time has started</p>
+        <p className="text-lg text-green-500">Your game has started</p>
       )}
       {start === "stop" && (
         <p className="text-lg text-red-400">
