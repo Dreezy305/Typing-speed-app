@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button";
 import NewTimer from "../../components/NewTimer";
 import Stats from "../../components/Stats";
-import { NUM_OF_WORDS } from "../../utils/constants";
+import { lengthOfGame, NUM_OF_WORDS } from "../../utils/constants";
 
 function Speed() {
   const inputRef: any = useRef();
@@ -106,11 +106,11 @@ function Speed() {
             }}
           >
             <option value={""}>Select...</option>
-            <option value={1}>1 min</option>
-            <option value={2}>2 mins</option>
-            <option value={3}>3 mins</option>
-            <option value={4}>4 mins</option>
-            <option value={5}>5 mins</option>
+            {lengthOfGame.map((i) => (
+              <option key={i.id} value={i.value}>
+                {i.label}
+              </option>
+            ))}
           </select>
 
           <div className="flex flex-col space-y-2">
