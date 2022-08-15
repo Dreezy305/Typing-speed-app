@@ -1,10 +1,9 @@
 import randomWords from "random-words";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button";
+import NewTimer from "../../components/NewTimer";
 import Stats from "../../components/Stats";
-import Timer from "../../components/Timer";
-import styles from "../../styles/Home.module.css";
-import { NUM_OF_SECS, NUM_OF_WORDS } from "../../utils/constants";
+import { NUM_OF_WORDS } from "../../utils/constants";
 
 function Speed() {
   const inputRef: any = useRef();
@@ -12,12 +11,10 @@ function Speed() {
 
   const [duration, setDuration] = useState<any>(0);
   const [custom, setCustom] = useState<any>(0);
-  const [seconds, setSeconds] = useState<any>(NUM_OF_SECS);
   const [paragraph, setParagraph] = useState<string>("");
   const [word, setWord] = useState<string>("");
   const [random, setRandom] = useState<any>([]);
   const [showRandom, setShowRandom] = useState<boolean>(true);
-  const [stop, setStop] = useState<boolean>(false);
   const [currWordIndex, setCurrentWordIndex] = useState<any>(0);
   const [count, setCount] = useState<any>(0);
   const [incorrectWord, setIncorrectWord] = useState<any>(0);
@@ -27,9 +24,6 @@ function Speed() {
 
   const handleSelect = (e: any) => {
     const value = e.target.value;
-    if (value > 1) {
-      setSeconds(0);
-    }
   };
 
   const generateWords = () => {
@@ -41,36 +35,6 @@ function Speed() {
   useEffect(() => {
     setRandom(generateWords());
   }, []);
-
-  // countdown timer logic
-  useEffect(() => {}, [seconds]);
-
-  const start = () => {
-    let interval = setInterval(() => {
-      if (duration === 0 || duration === 1) {
-        setSeconds((prev: any) => {
-          if (prev === 0) {
-            clearInterval(interval);
-            setSeconds(0);
-          } else {
-            return prev - 1;
-          }
-        });
-      } else if (duration > 1) {
-        setSeconds((prev: any) => console.log(prev));
-        setDuration((prev: any) => {
-          if (prev == 0) {
-            clearInterval(interval);
-          } else {
-            return duration - 1;
-          }
-        });
-      }
-    }, 1000);
-  };
-
-  const timerMins = duration < 10 ? `0${duration}` : duration;
-  const timerSecs = seconds < 10 ? `0${seconds}` : seconds;
 
   const handleKeyDown = (e: any) => {
     const { keyCode, key } = e;
@@ -110,6 +74,10 @@ function Speed() {
     setRandom(words);
   };
 
+  const handleCustomDuration = (e: any) => {
+    const value = e.target.value;
+  };
+
   const acc = (correctWord / (correctWord + incorrectWord)) * 100;
 
   return (
@@ -147,14 +115,7 @@ function Speed() {
           </div>
         </div>
 
-        <Timer
-          minutes={timerMins}
-          seconds={timerSecs}
-          onStart={() => start()}
-          onStop={() => {
-            console.log("stop");
-          }}
-        />
+        {duration && <NewTimer initialMinute={duration} initialSeconds={0} />}
       </div>
 
       {/* random paragraph */}
