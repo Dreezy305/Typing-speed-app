@@ -21,6 +21,7 @@ function Speed() {
   const [correctWord, setCorrectWord] = useState<any>(0);
   const [currentChar, setCurrentChar] = useState<any>("");
   const [currentCharIndex, setCurrentCharIndex] = useState<any>(-1);
+  const [checkCustom, setCheckCustom] = useState<boolean>(true);
 
   const handleSelect = (e: any) => {
     const value = e.target.value;
@@ -74,8 +75,9 @@ function Speed() {
     setRandom(words);
   };
 
-  const handleCustomDuration = (e: any) => {
+  const handleCustomDuration = async (e: any) => {
     const value = e.target.value;
+    // setDuration(value);
   };
 
   const acc = (correctWord / (correctWord + incorrectWord)) * 100;
@@ -109,13 +111,22 @@ function Speed() {
               id="custom"
               name="custom"
               value={custom}
-              onChange={(e) => setCustom(e.target.value)}
+              onChange={(e) => {
+                setCustom(e.target.value);
+                handleCustomDuration(e);
+              }}
               ref={inputRef}
             />
           </div>
         </div>
 
-        {duration && <NewTimer initialMinute={duration} initialSeconds={0} />}
+        <div className="flex flex-col items-center justify-center">
+          {duration !== 0 && (
+            <NewTimer initialMinute={duration} initialSeconds={0} />
+          )}
+        </div>
+
+        {custom !== 0 && <NewTimer initialMinute={custom} initialSeconds={0} />}
       </div>
 
       {/* random paragraph */}
