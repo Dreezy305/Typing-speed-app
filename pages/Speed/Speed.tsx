@@ -82,13 +82,23 @@ function Speed() {
 
   const acc = (correctWord / (correctWord + incorrectWord)) * 100;
 
+  const renderCustom = () => {
+    const int = parseInt(custom);
+
+    if (int < 10) {
+      console.log(typeof `0${int}`);
+    }
+  };
+
+  renderCustom();
+
   return (
     <div className="container mx-auto flex flex-col space-y-4">
       <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col space-y-5 w-4/5">
           <p className="font-sans font-medium text-base">Select Duration</p>
           <select
-            className="font-serif font-normal text-base px-3 py-2 rounded-sm border border-sky-500 outline-none shadow-none"
+            className="font-serif font-normal text-base px-3 py-2 rounded-md border border-sky-500 outline-none shadow-none"
             value={duration}
             onChange={(e) => {
               setDuration(e.target.value);
@@ -106,7 +116,7 @@ function Speed() {
           <div className="flex flex-col space-y-2">
             <label className="font-sans">Enter a custom duration(mins)</label>
             <input
-              className="px-2 py-3 font-mono border-solid rounded-sm border border-sky-500 bg-white outline-none shadow-none text-black"
+              className="px-2 py-3 font-mono border-solid rounded-md border border-sky-500 bg-white outline-none shadow-none text-black"
               type={"number"}
               id="custom"
               name="custom"
@@ -124,9 +134,14 @@ function Speed() {
           {duration !== 0 && (
             <NewTimer initialMinute={duration} initialSeconds={0} />
           )}
-        </div>
 
-        {custom !== 0 && <NewTimer initialMinute={custom} initialSeconds={0} />}
+          {custom !== 0 && (
+            <NewTimer
+              initialMinute={custom !== 0 && parseInt(custom)}
+              initialSeconds={0}
+            />
+          )}
+        </div>
       </div>
 
       {/* random paragraph */}
@@ -137,7 +152,7 @@ function Speed() {
           </label>
           <input
             value={word}
-            className="px-2 py-3 font-mono border-solid rounded-sm border border-sky-500 bg-white outline-none shadow-none text-black w-full"
+            className="px-2 py-3 font-mono border-solid rounded-md border border-sky-500 bg-white outline-none shadow-none text-black w-full"
             onChange={(e) => setWord(e.target.value)}
             onKeyDown={(e) => handleKeyDown(e)}
           />

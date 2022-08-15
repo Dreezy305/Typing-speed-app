@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function NewTimer(props: any) {
   const { initialMinute = 0, initialSeconds = 0 } = props;
+  //   console.log(initialMinute, "hn");
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
   const [start, setStart] = useState<string>("");
