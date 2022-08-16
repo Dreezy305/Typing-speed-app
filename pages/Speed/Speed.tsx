@@ -21,7 +21,8 @@ function Speed() {
   const [correctWord, setCorrectWord] = useState<any>(0);
   const [currentChar, setCurrentChar] = useState<any>("");
   const [currentCharIndex, setCurrentCharIndex] = useState<any>(-1);
-  const [checkCustom, setCheckCustom] = useState<boolean>(true);
+  const [checkCustom, setCheckCustom] = useState<any>();
+  const [checker, setCheker] = useState<boolean>(false);
 
   const handleSelect = (e: any) => {
     const value = e.target.value;
@@ -129,6 +130,15 @@ function Speed() {
               }}
               ref={inputRef}
             />
+            <Button
+              label={"Start"}
+              marginTop="mt-3 float-left"
+              onClick={() => {
+                setCheckCustom(custom), setCheker(true);
+              }}
+              width="auto"
+              className="px-4"
+            />
           </div>
         </div>
 
@@ -137,11 +147,8 @@ function Speed() {
             <NewTimer initialMinute={duration} initialSeconds={0} />
           )}
 
-          {custom !== 0 && (
-            <NewTimer
-              initialMinute={custom !== "" && parseInt(custom)}
-              initialSeconds={0}
-            />
+          {checker && (
+            <NewTimer initialMinute={checkCustom} initialSeconds={0} />
           )}
         </div>
       </div>
