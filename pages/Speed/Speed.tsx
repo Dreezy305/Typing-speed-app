@@ -206,7 +206,9 @@ function Speed() {
                 : "Generate random words"
             }
             marginTop="mt-3"
-            onClick={() => setShowRandom(!showRandom)}
+            onClick={() => {
+              setShowRandom(!showRandom);
+            }}
             width="auto"
             className="px-4"
           />
