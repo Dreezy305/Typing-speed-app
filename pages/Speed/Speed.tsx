@@ -131,8 +131,8 @@ function Speed() {
               ref={inputRef}
             />
             <Button
-              label={"Start"}
-              marginTop="mt-3 float-left"
+              label={"Click to start custom duration"}
+              marginTop="mt-3 float-left self-start"
               onClick={() => {
                 setCheckCustom(custom), setCheker(true);
               }}
