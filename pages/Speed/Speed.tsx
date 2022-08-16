@@ -134,7 +134,8 @@ function Speed() {
               label={"Click to start custom duration"}
               marginTop="mt-3 float-left self-start"
               onClick={() => {
-                setCheckCustom(custom), setCheker(true);
+                setCheckCustom(custom);
+                setCheker(true);
               }}
               width="auto"
               className="px-4"
